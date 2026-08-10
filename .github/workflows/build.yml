@@ -1,36 +1,22 @@
-name: Build Kivy Android APK
+[app]
+title = My Kivy App
+package.name = mykivyapp
+package.domain = org.test
+source.dir = .
+source.include_exts = py,png,jpg,kv,atlas
+version = 0.1
+requirements = python3,kivy
+orientation = portrait
+fullscreen = 0
+android.archs = armeabi-v7a, arm64-v8a
+android.allow_backup = True
+ios.kivy_ios_url = https://github.com/kivy/kivy-ios
+ios.kivy_ios_branch = master
+ios.ios_deploy_url = https://github.com/phonegap/ios-deploy
+ios.ios_deploy_branch = 1.10.0
 
-on:
-  push:
-    branches: [ main ]
+[buildozer]
+log_level = 2
+warn_on_root = 1
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo6 cmake libffi-dev libssl-dev
-        pip install --upgrade pip
-        pip install buildozer cython==0.29.33
-
-    - name: Build with Buildozer
-      run: |
-        # دستور مخصوص برای تایید لایسنس‌ها و شروع بیلد
-        yes | buildozer android debug
-
-    - name: Upload APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: my-app-apk
-        path: bin/*.apk
-        
         
